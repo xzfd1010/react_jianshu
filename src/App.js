@@ -1,13 +1,10 @@
 import React from 'react'
-import { GlobalStyle } from './style'
+import Header from './common/header/header'
 
 function App () {
   return (
     <React.Fragment>
-      <GlobalStyle/>
-      <div className="dell">
-        hello world
-      </div>
+      <Header/>
     </React.Fragment>
 
   )
