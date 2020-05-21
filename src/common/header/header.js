@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Addition, Button, HeaderWrapper, Logo, Nav, NavItem, NavSearch, SearchWrapper } from './style'
-import { Transition } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 
 class Header extends Component {
   constructor (props) {
@@ -8,17 +8,17 @@ class Header extends Component {
     this.state = {
       focused: false
     }
-    this.handleFocus = this.handleFocus.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
+    this.handleInputFocus = this.handleInputFocus.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
   }
 
-  handleFocus () {
+  handleInputFocus () {
     this.setState({
       focused: true
     })
   }
 
-  handleBlur () {
+  handleInputBlur () {
     this.setState({
       focused: false
     })
@@ -35,14 +35,14 @@ class Header extends Component {
           <NavItem className="right">
             <i className="iconfont">&#xe636;</i>
           </NavItem>
-
           <SearchWrapper>
-            <Transition name="slide" timeout={1}>
+            {/*in 控制进出场*/}
+            <CSSTransition in={this.state.focused} timeout={200} classNames="slide">
               <NavSearch className={this.state.focused ? 'focused' : ''}
-                         onFocus={this.handleFocus}
-                         onBlur={this.handleBlur}/>
-            </Transition>
-            <i className="iconfont zoom">&#xe614;</i>
+                         onFocus={this.handleInputFocus}
+                         onBlur={this.handleInputBlur}/>
+            </CSSTransition>
+            <i className={this.state.focused ? "iconfont zoom focused" : "iconfont zoom"}>&#xe614;</i>
           </SearchWrapper>
         </Nav>
         <Addition>
