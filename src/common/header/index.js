@@ -37,7 +37,7 @@ function Header (props) {
 
 const mapStateToProps = ({ header }) => {
   return {
-    focused: header.focused
+    focused: header.get('focused')
   }
 }
 
