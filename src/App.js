@@ -1,12 +1,13 @@
 import React from 'react'
-import Header from './common/header/header'
+import Index from './common/header'
+import store from './store'
+import { Provider } from 'react-redux'
 
 function App () {
   return (
-    <React.Fragment>
-      <Header/>
-    </React.Fragment>
-
+    <Provider store={store}>
+      <Index/>
+    </Provider>
   )
 }
 
