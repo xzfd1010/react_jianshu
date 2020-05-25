@@ -124,7 +124,7 @@ export const SearchInfoSwitch = styled.span`
 		float: left;
 		font-size: 12px;
 		margin-right: 2px;
-		transition: all .2s ease-in;
+		transition: all .3s ease-in;
 		transform-origin: center center;
 	}
 `;
@@ -165,7 +165,7 @@ export const Button = styled.div`
 	&.reg {
 		color: #ec6149;
 	}
-	&.writting {
+	&.writing {
 		color: #fff;
 		background: #ec6149;
 	}

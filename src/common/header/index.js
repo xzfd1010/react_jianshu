@@ -20,18 +20,33 @@ import { actionCreators } from './store/'
 
 class Header extends Component {
   getListArea () {
-    const { focused, list } = this.props
-    if (focused) {
+    const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props
+    const newList = list.toJS() // immutable  => 普通数组，因为immutable数组不支持普通引用
+    const pageList = []
+    if (newList.length) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        if (newList[i]) {
+          pageList.push(
+            <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+          )
+        }
+      }
+    }
+    if (focused || mouseIn) {
       return (
-        <SearchInfo>
+        <SearchInfo onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
           <SearchInfoTitle>
             热门搜索
-            <SearchInfoSwitch>换一换</SearchInfoSwitch>
+            <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage, this.spinIcon)}>
+              <CSSTransition in={focused} timeout={200} classNames="slide">
+                <i ref={(icon) => {this.spinIcon = icon}} className="iconfont spin">&#xe851;</i>
+              </CSSTransition>
+              换一换
+            </SearchInfoSwitch>
           </SearchInfoTitle>
           <SearchInfoList>
-            {
-              list.map((item) => (<SearchInfoItem key={item}>{item}</SearchInfoItem>))
-            }
+            {pageList}
           </SearchInfoList>
         </SearchInfo>
       )
@@ -41,7 +56,7 @@ class Header extends Component {
   }
 
   render () {
-    const { focused, handleInputFocus, handleInputBlur } = this.props
+    const { focused, handleInputFocus, handleInputBlur, list } = this.props
     return (
       <HeaderWrapper>
         <Logo/>
@@ -56,15 +71,15 @@ class Header extends Component {
             {/*in 控制进出场*/}
             <CSSTransition in={focused} timeout={200} classNames="slide">
               <NavSearch className={focused ? 'focused' : ''}
-                         onFocus={handleInputFocus}
+                         onFocus={handleInputFocus(list)}
                          onBlur={handleInputBlur}/>
             </CSSTransition>
-            <i className={focused ? 'iconfont zoom focused' : 'iconfont zoom'}>&#xe614;</i>
+            <i className={focused ? 'iconfont zoom focused' : 'zoom iconfont'}>&#xe614;</i>
             {this.getListArea()}
           </SearchWrapper>
         </Nav>
         <Addition>
-          <Button className="writting">
+          <Button className="writing">
             <i className="iconfont">&#xe615;</i>写文章
           </Button>
           <Button className="reg">注册</Button>
@@ -74,23 +89,39 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    // focused: state.get('header').get('focused') // state.getIn(['header','focused'])
-    focused: state.getIn(['header', 'focused']),
-    list: state.getIn(['header', 'list'])
-  }
-}
+const mapStateToProps = (state) => ({
+  // focused: state.get('header').get('focused') // state.getIn(['header','focused'])
+  focused: state.getIn(['header', 'focused']),
+  list: state.getIn(['header', 'list']),
+  page: state.getIn(['header', 'page']),
+  totalPage: state.getIn(['header', 'totalPage']),
+  mouseIn: state.getIn(['header', 'mouseIn'])
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputFocus () {
-      dispatch(actionCreators.getList())
+    handleInputFocus (list) {
+      console.log(list)
+      list.size === 0 && dispatch(actionCreators.getList())
       dispatch(actionCreators.searchFocus())
     },
     handleInputBlur () {
       dispatch(actionCreators.searchBlur())
+    },
+    handleMouseEnter () {
+      dispatch(actionCreators.mouseEnter())
+    },
+    handleMouseLeave () {
+      dispatch(actionCreators.mouseLeave())
+    },
+    handleChangePage (page, totalPage, spin) {
+      let originAngle = spin.style.transform.replace(/[^0-9]/ig, '')
+      originAngle = originAngle ? parseInt(originAngle) : 0
+      spin.style.transform = `rotate(${originAngle + 360}deg)`
+      const nextPage = page < totalPage ? page + 1 : 1
+      dispatch(actionCreators.changePage(nextPage))
     }
+
   }
 }
 
