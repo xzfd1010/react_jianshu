@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
   Addition,
   Button,
@@ -14,13 +14,13 @@ import {
   SearchInfoTitle,
   SearchWrapper
 } from './style'
-import { CSSTransition } from 'react-transition-group'
-import { connect } from 'react-redux'
-import { actionCreators } from './store/'
+import {CSSTransition} from 'react-transition-group'
+import {connect} from 'react-redux'
+import {actionCreators} from './store/'
 
 class Header extends Component {
-  getListArea () {
-    const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props
+  getListArea() {
+    const {focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage} = this.props
     const newList = list.toJS() // immutable  => 普通数组，因为immutable数组不支持普通引用
     const pageList = []
     if (newList.length) {
@@ -40,7 +40,9 @@ class Header extends Component {
             热门搜索
             <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage, this.spinIcon)}>
               <CSSTransition in={focused} timeout={200} classNames="slide">
-                <i ref={(icon) => {this.spinIcon = icon}} className="iconfont spin">&#xe851;</i>
+                <i ref={(icon) => {
+                  this.spinIcon = icon
+                }} className="iconfont spin">&#xe851;</i>
               </CSSTransition>
               换一换
             </SearchInfoSwitch>
@@ -55,8 +57,8 @@ class Header extends Component {
     }
   }
 
-  render () {
-    const { focused, handleInputFocus, handleInputBlur, list } = this.props
+  render() {
+    const {focused, handleInputFocus, handleInputBlur, list} = this.props
     return (
       <HeaderWrapper>
         <Logo/>
@@ -71,7 +73,7 @@ class Header extends Component {
             {/*in 控制进出场*/}
             <CSSTransition in={focused} timeout={200} classNames="slide">
               <NavSearch className={focused ? 'focused' : ''}
-                         onFocus={handleInputFocus(list)}
+                         onFocus={() => handleInputFocus(list)}
                          onBlur={handleInputBlur}/>
             </CSSTransition>
             <i className={focused ? 'iconfont zoom focused' : 'zoom iconfont'}>&#xe614;</i>
@@ -100,21 +102,20 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputFocus (list) {
-      console.log(list)
+    handleInputFocus(list) {
       list.size === 0 && dispatch(actionCreators.getList())
       dispatch(actionCreators.searchFocus())
     },
-    handleInputBlur () {
+    handleInputBlur() {
       dispatch(actionCreators.searchBlur())
     },
-    handleMouseEnter () {
+    handleMouseEnter() {
       dispatch(actionCreators.mouseEnter())
     },
-    handleMouseLeave () {
+    handleMouseLeave() {
       dispatch(actionCreators.mouseLeave())
     },
-    handleChangePage (page, totalPage, spin) {
+    handleChangePage(page, totalPage, spin) {
       let originAngle = spin.style.transform.replace(/[^0-9]/ig, '')
       originAngle = originAngle ? parseInt(originAngle) : 0
       spin.style.transform = `rotate(${originAngle + 360}deg)`
