@@ -60,6 +60,7 @@ export const ListItem = styled.div`
 		height: 100px;
 		float: right;
 		border-radius: 10px;
+		object-fit:cover;
 	}
 `;
 
