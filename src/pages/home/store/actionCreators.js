@@ -1,5 +1,11 @@
 import axios from 'axios'
 import * as constants from './constants'
+import {fromJS} from 'immutable'
+
+export const toggleTopShow = (show) => ({
+  type: constants.TOGGLE_TOP_SHOW,
+  show
+})
 
 const changeHomeData = (data) => ({
   type: constants.CHANGE_HOME_DATA,
@@ -8,7 +14,13 @@ const changeHomeData = (data) => ({
   recommendList: data.recommendList,
 })
 
-export function getHomeList () {
+const addHomeList = (data,nextPage) => ({
+  type: constants.ADD_ARTICLE_LIST,
+  list: fromJS(data), // 数组 => immutable
+  nextPage
+})
+
+export function getHomeInfo () {
   return (dispatch) => {
     // 处理异步请求
     axios.get('/api/home.json').then(({ data }) => {
@@ -19,3 +31,14 @@ export function getHomeList () {
     })
   }
 }
+
+export const getMoreList = (page) => {
+  return (dispatch) => {
+    axios.get('/api/homeList.json?page='+page).then(({ data }) => {
+      // 将数据派发给reducer
+      console.log(data)
+      dispatch(addHomeList(data.data, page+ 1))
+    })
+  }
+}
+
