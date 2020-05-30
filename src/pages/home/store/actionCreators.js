@@ -36,7 +36,6 @@ export const getMoreList = (page) => {
   return (dispatch) => {
     axios.get('/api/homeList.json?page='+page).then(({ data }) => {
       // 将数据派发给reducer
-      console.log(data)
       dispatch(addHomeList(data.data, page+ 1))
     })
   }

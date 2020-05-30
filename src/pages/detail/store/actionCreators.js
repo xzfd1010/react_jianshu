@@ -7,10 +7,10 @@ const changeDetailData = (data) => ({
   data: fromJS(data)
 })
 
-export const getDetailInfo = () => {
+export const getDetailInfo = (id) => {
   return (dispatch) => {
     // 处理异步请求
-    axios.get('/api/detail.json').then(({ data }) => {
+    axios.get(`/api/detail.json?id=${id}`).then(({ data }) => {
       // 将数据派发给reducer
       dispatch(changeDetailData(data.data))
     }).catch(() => {
@@ -19,4 +19,3 @@ export const getDetailInfo = () => {
   }
 }
 
-export default {}
