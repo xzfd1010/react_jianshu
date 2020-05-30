@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { PureComponent } from 'react'
 import {
   Addition,
   Button,
@@ -14,13 +14,14 @@ import {
   SearchInfoTitle,
   SearchWrapper
 } from './style'
-import {CSSTransition} from 'react-transition-group'
-import {connect} from 'react-redux'
-import {actionCreators} from './store/'
+import { CSSTransition } from 'react-transition-group'
+import { connect } from 'react-redux'
+import { actionCreators } from './store/'
+import { Link } from 'react-router-dom'
 
-class Header extends Component {
-  getListArea() {
-    const {focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage} = this.props
+class Header extends PureComponent {
+  getListArea () {
+    const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props
     const newList = list.toJS() // immutable  => 普通数组，因为immutable数组不支持普通引用
     const pageList = []
     if (newList.length) {
@@ -57,11 +58,13 @@ class Header extends Component {
     }
   }
 
-  render() {
-    const {focused, handleInputFocus, handleInputBlur, list} = this.props
+  render () {
+    const { focused, handleInputFocus, handleInputBlur, list } = this.props
     return (
       <HeaderWrapper>
-        <Logo/>
+        <Link to='/'>
+          <Logo/>
+        </Link>
         <Nav>
           <NavItem className="left">首页</NavItem>
           <NavItem className="left">下载App</NavItem>
@@ -102,20 +105,20 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputFocus(list) {
+    handleInputFocus (list) {
       list.size === 0 && dispatch(actionCreators.getList())
       dispatch(actionCreators.searchFocus())
     },
-    handleInputBlur() {
+    handleInputBlur () {
       dispatch(actionCreators.searchBlur())
     },
-    handleMouseEnter() {
+    handleMouseEnter () {
       dispatch(actionCreators.mouseEnter())
     },
-    handleMouseLeave() {
+    handleMouseLeave () {
       dispatch(actionCreators.mouseLeave())
     },
-    handleChangePage(page, totalPage, spin) {
+    handleChangePage (page, totalPage, spin) {
       let originAngle = spin.style.transform.replace(/[^0-9]/ig, '')
       originAngle = originAngle ? parseInt(originAngle) : 0
       spin.style.transform = `rotate(${originAngle + 360}deg)`
