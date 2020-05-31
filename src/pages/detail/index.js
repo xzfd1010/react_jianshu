@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Content, DetailWrapper, Header } from './style'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'

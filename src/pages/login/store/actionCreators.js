@@ -6,7 +6,6 @@ export const logout = () => ({
   value: false
 })
 
-
 const changeLogin = () => ({
   type: constants.CHANGE_LOGIN,
   value: true
@@ -14,10 +13,10 @@ const changeLogin = () => ({
 
 export function login (account, password) {
   return (dispatch) => {
-    axios.get(`/api/login.json?account=${account}&password=${password}`).then(({ data:{data:result} }) => {
-      if(result){
+    axios.get(`/api/login.json?account=${account}&password=${password}`).then(({ data: { data: result } }) => {
+      if (result) {
         dispatch(changeLogin())
-      }else{
+      } else {
         console.log('登录失败')
       }
     })

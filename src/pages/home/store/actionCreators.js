@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as constants from './constants'
-import {fromJS} from 'immutable'
+import { fromJS } from 'immutable'
 
 export const toggleTopShow = (show) => ({
   type: constants.TOGGLE_TOP_SHOW,
@@ -14,7 +14,7 @@ const changeHomeData = (data) => ({
   recommendList: data.recommendList,
 })
 
-const addHomeList = (data,nextPage) => ({
+const addHomeList = (data, nextPage) => ({
   type: constants.ADD_ARTICLE_LIST,
   list: fromJS(data), // 数组 => immutable
   nextPage
@@ -34,9 +34,9 @@ export function getHomeInfo () {
 
 export const getMoreList = (page) => {
   return (dispatch) => {
-    axios.get('/api/homeList.json?page='+page).then(({ data }) => {
+    axios.get('/api/homeList.json?page=' + page).then(({ data }) => {
       // 将数据派发给reducer
-      dispatch(addHomeList(data.data, page+ 1))
+      dispatch(addHomeList(data.data, page + 1))
     })
   }
 }

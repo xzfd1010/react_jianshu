@@ -18,11 +18,11 @@ class Home extends PureComponent {
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll',this.props.changeScrollTopShow)
+    window.removeEventListener('scroll', this.props.changeScrollTopShow)
   }
 
-  bindEvents(){
-    window.addEventListener('scroll',this.props.changeScrollTopShow)
+  bindEvents () {
+    window.addEventListener('scroll', this.props.changeScrollTopShow)
   }
 
   render () {
@@ -51,10 +51,10 @@ const mapDispatchToProps = (dispatch) => ({
   getHomeInfo () {
     dispatch(actionCreators.getHomeInfo())
   },
-  changeScrollTopShow(e){
-    if(document.documentElement.scrollTop > 400){
+  changeScrollTopShow (e) {
+    if (document.documentElement.scrollTop > 400) {
       dispatch(actionCreators.toggleTopShow(true))
-    }else{
+    } else {
       dispatch(actionCreators.toggleTopShow(false))
     }
   }

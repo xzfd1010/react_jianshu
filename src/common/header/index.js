@@ -18,7 +18,7 @@ import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import { actionCreators } from './store/'
 import { Link } from 'react-router-dom'
-import {actionCreators as loginActionCreators} from '../../pages/login/store'
+import { actionCreators as loginActionCreators } from '../../pages/login/store'
 
 class Header extends PureComponent {
   getListArea () {
@@ -133,7 +133,7 @@ const mapDispatchToProps = (dispatch) => {
       const nextPage = page < totalPage ? page + 1 : 1
       dispatch(actionCreators.changePage(nextPage))
     },
-    logout(){
+    logout () {
       dispatch(loginActionCreators.logout())
     }
 

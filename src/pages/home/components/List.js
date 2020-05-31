@@ -2,17 +2,17 @@ import React, { PureComponent } from 'react'
 import { ListInfo, ListItem, LoadMore } from '../style'
 import { connect } from 'react-redux'
 import { actionCreators } from '../store/'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class List extends PureComponent {
   render () {
-    const { list,getMoreList,page } = this.props
+    const { list, getMoreList, page } = this.props
     return (
       <div>
         {
-          list.map((item,index) => (
+          list.map((item, index) => (
             <Link key={index} to={`/detail/${item.get('id')}`}>
-              <ListItem >
+              <ListItem>
                 <img className='pic' src={item.get('imgUrl')} alt="图片"/>
                 <ListInfo>
                   <h3 className='title'>{item.get('title')}</h3>
@@ -22,7 +22,7 @@ class List extends PureComponent {
             </Link>
           ))
         }
-        <LoadMore onClick={()=>getMoreList(page)}>更多文章</LoadMore>
+        <LoadMore onClick={() => getMoreList(page)}>更多文章</LoadMore>
       </div>
     )
   }
@@ -30,7 +30,7 @@ class List extends PureComponent {
 
 const mapStateToProps = (state) => ({
   list: state.getIn(['home', 'articleList']),
-  page: state.getIn(['home','articlePage'])
+  page: state.getIn(['home', 'articlePage'])
 })
 const mapDispatch = (dispatch) => ({
   getMoreList (page) {
